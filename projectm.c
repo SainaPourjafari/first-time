@@ -1,4 +1,4 @@
-/// khat haye khata(baraye jump)
+
 
 #include <stdio.h>
 #include <string.h>
@@ -246,12 +246,13 @@ void DUMP_REGS_F()
 
 void INPUT()
 {
+    printf("enter the value of array[0]:");
     scanf("%d", &array[0]);
 }
 
 void OUTPUT()
 {
-    printf("%d", array[0]);
+    printf("array[0]: %d", array[0]);
 }
 
 void DIV(int a1, int a2)
@@ -353,8 +354,9 @@ int main(int argc, char *argv[])
 
     rewind(voroodi);
 
-    while (fscanf(voroodi, "%[^\n]\ns", buffer) != EOF)
+    while (fscanf(voroodi, "%[^\n]\n", buffer) != EOF)
     {
+
         int a1, a2, a3;
         countW++; //
         for (int i = 0; i < sizeof(buffer); i++)
@@ -362,15 +364,76 @@ int main(int argc, char *argv[])
             buffer[i] = toupper(buffer[i]);
         }
 
-        char dastoor[15] = {'\0'};
+        char dastoor[15]={'\0'} ;
+
         int j;
-        for (j = 0; buffer[j] != ' '; j++)
+
+        for (j = 0; buffer[j] != ' ' && buffer[j] != '\n'&& buffer[j]!='/'&& buffer[j]!='\0'; j++)
         {
             dastoor[j] = buffer[j];
         }
-        // dastoor[j+1] ='\0' ;
 
-        if (strcmp(dastoor, "EXIT") == 0)
+
+        if(dastoor[0] =='\0')
+            continue;
+
+
+        if (strcmp(dastoor, "JMP") == 0)
+        {
+            countJmp++;
+            if (countJmp > 5)
+            {
+                yellow();
+                printf("you had an infinite loop because of backward jump command, so we ended it after 5 times!\n");
+                reset();
+                //fscanf(voroodi, "%[^\n]\n", buffer);
+                countJmp=0;
+                //countW++;
+            }
+            else
+            {
+                int countL = 1, countCH = 0;
+                sscanf(buffer, "JMP %d", &a1);                
+
+                if (a1 <= 0)
+                {
+                    red();
+                    printf("Error in line %d...your lines start from 1 !\n",countW);
+                    reset();
+                }
+
+                else if (a1 > checkAllLine)
+                {
+                    red();
+                    printf("Error in line %d...you only have %d lines!\n",countW, checkAllLine);
+                    reset();
+                }
+                else
+                {
+                    rewind(voroodi);
+                    countW=a1;
+                    while (countL != a1)
+                    {
+                    //    countCH++;
+                        if (fgetc(voroodi) == '\n')
+                            countL++;
+
+                        // countCH;
+                    }
+                    // fseek(voroodi, countCH +1, SEEK_SET);
+                    // fscanf(voroodi, "%[^\n]\n", buffer);
+
+                    for (j = 0; buffer[j] != ' '; j++)
+                    {
+                        dastoor[j] = buffer[j];
+                    }
+                    dastoor[j] = '\0';
+                }
+            }
+        }
+
+
+        else if (strcmp(dastoor, "EXIT") == 0)
         {
             exit(0);
         }
@@ -500,63 +563,6 @@ int main(int argc, char *argv[])
             OUTPUT();
         }
 
-        else if (strcmp(dastoor, "JMP") == 0)
-        {
-            countJmp++;
-            if (countJmp > 5)
-            {
-                yellow();
-                printf("you had a loop because of jump command so we ended this chookh after a few times!");
-                reset();
-                fscanf(voroodi, "%[^\n]\n", buffer);
-            }
-            else
-            {
-                int countL = 1, countCH = 0;
-
-                sscanf(buffer, "JMP %d", &a1);
-               
-                if(a1<=0)
-                {
-                    red();
-                    printf("Error...your lines start from 1 !");
-                    reset();
-                }
-
-                else if(a1>checkAllLine)
-                {
-                    red();
-                    printf("Error...you only have %d lines!",checkAllLine);
-                    reset();
-                }
-
-                else
-                {
-                    rewind(voroodi);
-                    while (countL != a1)
-                    {
-                        countCH++;
-                        if (fgetc(voroodi) == '\n')
-                            countL++;
-                    }
-                    fseek(voroodi, countCH + 1, SEEK_SET);
-                    fscanf(voroodi, "%[^\n]\n", buffer);
-
-                    for (j = 0; buffer[j] != ' '; j++)
-                    {
-                        dastoor[j] = buffer[j];
-                    }
-                    dastoor[j] = '\0';
-
-                    // if(imm>countW)
-                    // {
-
-                    // }
-                }
-                
-            }
-        }
-
         else if (strcmp(dastoor, "SKIE") == 0)
         {
 
@@ -615,6 +621,11 @@ int main(int argc, char *argv[])
             printf("line %d:wrong input,error in command.\n", countW);
             reset();
         }
+        // for(int i=0;i<1000;i++)
+        // {
+        //     dastoor[i]='\0';
+        //     buffer[i]='\0';
+        // }
     }
 
     fclose(voroodi);

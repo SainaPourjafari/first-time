@@ -1,0 +1,3 @@
+mov s0, 3
+mov s1, 6
+dump_regs 
