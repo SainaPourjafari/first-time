@@ -3,12 +3,11 @@ MOV S0, 2
 hbjubjhb
 MOV S1, 2  //too roohet
 jmp 2
-//skie s0, s1
+skie s0, s1
 jmp -3
 ADD S2, S1, S0
 SUB S3, S1, S0
 AND S76, S1, S0
-sub
 XOR S5, S1, S0
 OR S6, S1, S0
 ijiuhyjh

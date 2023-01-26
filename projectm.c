@@ -592,10 +592,10 @@ int main(int argc, char *argv[])
         if (strcmp(dastoor, "JMP") == 0)
         {
             countJmp++;
-            if (countJmp > 20)
+            if (countJmp > 10)
             {
                 yellow();
-                printf("you had an infinite loop because of backward jump command in line %d, so we ended it after 20 times!\n",countW);
+                printf("you had an infinite loop because of backward jump command in line %d, so we ended it after 10 times!\n",countW);
                 reset();
                 // fscanf(voroodi, "%[^\n]\n", buffer);
                 countJmp = 0;
