@@ -1,43 +1,89 @@
-
+/**
+ * Include File
+ * @brief includes
+ **/
+/**
+ * @file projectm.c
+ * @file regs.txt
+ * @file in.txt
+ * @brief term project
+ * @version: V1.09
+ * @date 26 january 2023
+ * @author Saina Pourjafary
+ * @warning
+ * Warning Test
+ * @note fundamentals of programming.
+ * \mainpage
+ * CPU registers
+ **/
 
 #include <stdio.h>
 #include <string.h>
-// #include <limits.h>
 #include <stdlib.h>
 #include <ctype.h>
-// #include<windows.h>  //colors
 
 // colors for errors
+
+/**
+ * Red text color
+ * @brief redcolor out put
+ * @param void
+ * @return void
+ **/
 void red()
 {
     printf("\033[0;31m");
 }
 
+/**
+ * yellow text color
+ * @brief yellowcolor out put
+ * @param void
+ * @return void
+ **/
 void yellow()
 {
     printf("\033[0;33m");
 }
 
+/**
+ * Bold white text color
+ * @brief Bold whitecolor out put
+ * @param void
+ * @return void
+ **/
 void whiteB()
 {
     printf("\033[1;37m");
 }
 
+/**
+ * reset text color
+ * @brief resetcolor out put
+ * @param void
+ * @return void
+ **/
 void reset()
 {
     printf("\033[0m");
 }
 
-int array[32] = {0};
+int array[32] = {0}; /*Conditional Registers*/
 int sabbat[8] = {2, 2, 2, 2, 2, 2, 2, 2};
 
 //(start)sabbat vaziat ha
+
+/**
+ * ParityFlag
+ * @brief Status[0] of the last Command:for number of ones in binary form
+ * @param int result
+ * @return void
+ **/
 void ParityFlag(int result)
 {
     int count = 0;
     while (result > 0)
     {
-
         if (result % 2 == 1)
         {
             count++;
@@ -57,6 +103,12 @@ void ParityFlag(int result)
     }
 }
 
+/**
+ * ZeroFlag
+ * @brief Status[1] of the last Command: zero result
+ * @param int result
+ * @return void
+ **/
 void ZeroFlag(int result)
 {
     if (result == 0)
@@ -65,6 +117,12 @@ void ZeroFlag(int result)
         sabbat[1] = 0;
 }
 
+/**
+ * SignFlag
+ * @brief Status[2] of the last Command: Sign
+ * @param int result
+ * @return void
+ **/
 void SignFlag(int result)
 {
     if (result < 0)
@@ -73,6 +131,12 @@ void SignFlag(int result)
         sabbat[2] = 0;
 }
 
+/**
+ * Overflowflag add
+ * @brief Status[5] of the last Command: overflow
+ * @param int result
+ * @return void
+ **/
 void OverflowFlagAdd(int result, int a1, int a2)
 {
     if ((a1 > 0 && a2 > 0 && result < 0) || (a1 < 0 && a2 < 0 && result > 0))
@@ -81,6 +145,12 @@ void OverflowFlagAdd(int result, int a1, int a2)
         sabbat[5] = 0;
 }
 
+/**
+ * Overflowflag Sub
+ * @brief Status[5] of the last Command: overflow
+ * @param int result
+ * @return void
+ **/
 void OverflowFlagSub(int result, int a1, int a2)
 {
     if ((a1 > 0 && a2 < 0 && result < 0) || (a1 < 0 && a2 > 0 && result > 0))
@@ -89,6 +159,12 @@ void OverflowFlagSub(int result, int a1, int a2)
         sabbat[5] = 0;
 }
 
+/**
+ * Overflowflag Product
+ * @brief Status[5] of the last Command: overflow
+ * @param int result
+ * @return void
+ **/
 void OverflowFlagProduct(int result, int a1, int a2)
 {
     if (a1 != 0 && result / a1 != a2)
@@ -99,6 +175,13 @@ void OverflowFlagProduct(int result, int a1, int a2)
 //(end)sabbat vaziat ha
 
 //(start)functions
+
+/**
+ * ADD
+ * @brief adding two registers
+ * @param int add, a1 , a2
+ * @return void
+ **/
 void ADD(int add, int a1, int a2)
 {
     array[add] = array[a1] + array[a2];
@@ -109,6 +192,12 @@ void ADD(int add, int a1, int a2)
     OverflowFlagAdd(array[add], array[a1], array[a2]);
 }
 
+/**
+ * SUB
+ * @brief subing two registers
+ * @param int sub, a1 , a2
+ * @return void
+ **/
 void SUB(int sub, int a1, int a2)
 {
     array[sub] = array[a1] - array[a2];
@@ -119,6 +208,12 @@ void SUB(int sub, int a1, int a2)
     OverflowFlagSub(array[sub], array[a1], array[a2]);
 }
 
+/**
+ * AND
+ * @brief AND two registers
+ * @param int and, a1, a2
+ * @return void
+ **/
 void AND(int and, int a1, int a2)
 {
     array[and] = array[a1] & array[a2];
@@ -128,6 +223,12 @@ void AND(int and, int a1, int a2)
     SignFlag(array[and]);
 }
 
+/**
+ * XOR
+ * @brief XOR two registers
+ * @param int xor, a1, a2
+ * @return void
+ **/
 void XOR(int xor, int a1, int a2)
 {
     array[xor] = array[a1] ^ array[a2];
@@ -137,6 +238,12 @@ void XOR(int xor, int a1, int a2)
     SignFlag(array[xor]);
 }
 
+/**
+ * OR
+ * @brief OR two registers
+ * @param int or, a1, a2
+ * @return void
+ **/
 void OR(int or, int a1, int a2)
 {
     array[or] = array[a1] | array[a2];
@@ -146,6 +253,12 @@ void OR(int or, int a1, int a2)
     SignFlag(array[or]);
 }
 
+/**
+ * ADDI
+ * @brief adding a registers and a number
+ * @param int addi, a, imm
+ * @return void
+ **/
 void ADDI(int addi, int a, int imm)
 {
     array[addi] = array[a] + imm;
@@ -156,6 +269,12 @@ void ADDI(int addi, int a, int imm)
     OverflowFlagAdd(array[addi], array[a], imm);
 }
 
+/**
+ * SUBI
+ * @brief subbing a registers and a number
+ * @param int subi, a , imm
+ * @return void
+ **/
 void SUBI(int subi, int a, int imm)
 {
     array[subi] = array[a] - imm;
@@ -166,6 +285,12 @@ void SUBI(int subi, int a, int imm)
     OverflowFlagSub(array[subi], array[a], imm);
 }
 
+/**
+ * ANDI
+ * @brief  AND a register with a number
+ * @param int andi, a , imm
+ * @return void
+ **/
 void ANDI(int andi, int a, int imm)
 {
     array[andi] = array[a] & imm;
@@ -175,6 +300,12 @@ void ANDI(int andi, int a, int imm)
     SignFlag(array[andi]);
 }
 
+/**
+ * XORI
+ * @brief XOR a register with a number
+ * @param int xori, a , imm
+ * @return void
+ **/
 void XORI(int xori, int a, int imm)
 {
     array[xori] = array[a] ^ imm;
@@ -184,6 +315,12 @@ void XORI(int xori, int a, int imm)
     SignFlag(array[xori]);
 }
 
+/**
+ * ORI
+ * @brief OR a register with a number
+ * @param int ori, a & imm
+ * @return void
+ **/
 void ORI(int ori, int a, int imm)
 {
     array[ori] = array[a] | imm;
@@ -193,12 +330,24 @@ void ORI(int ori, int a, int imm)
     SignFlag(array[ori]);
 }
 
+/**
+ * MOV
+ * @brief puts a number in a register
+ * @param int rt , imm
+ * @return void
+ **/
 void MOV(int rt, int imm)
 {
     array[rt] = imm;
     // printf("%d", array[rt]);
 }
 
+/**
+ * SWP
+ * @brief swap two registers
+ * @param int a1 , a2
+ * @return void
+ **/
 void SWP(int a1, int a2)
 {
     int t = array[a1];
@@ -206,10 +355,16 @@ void SWP(int a1, int a2)
     array[a2] = t;
 }
 
+/**
+ * DUMP_REGS
+ * @brief print all register's value
+ * @param void
+ * @return void
+ **/
 void DUMP_REGS()
 {
     whiteB();
-    printf("\n ARRAY:");
+    printf("ARRAY:");
     reset();
 
     for (int i = 0; i < 32; i++)
@@ -217,44 +372,69 @@ void DUMP_REGS()
         printf("%d  ", array[i]);
     }
     whiteB();
-    printf("\n SABBAT VAZIAT HA(remember:the value 2 does not matter): ");
+    printf("\nSABBAT VAZIAT HA(remember:the value 2 does not matter): ");
     reset();
 
     for (int i = 0; i < 8; i++)
     {
         printf("%d  ", sabbat[i]);
     }
+    printf("\n");
 }
 
+/**
+ * DUMP_REGS_F
+ * @brief save the value of all registers in regs.tx
+ * @param void
+ * @return void
+ **/
 void DUMP_REGS_F()
 {
     FILE *file;
     file = fopen("regs.txt", "w");
 
-    fprintf(file, "array:");
+    fprintf(file, "ARRAY:");
     for (int i = 0; i < 32; i++)
     {
         fprintf(file, "%d ", array[i]);
     }
 
-    fprintf(file, "\nsabbat vaziat ha:");
+    fprintf(file, "\nSABBAT VAZIAT HA:");
     for (int i = 0; i < 8; i++)
     {
         fprintf(file, "%d ", sabbat[i]);
     }
 }
 
+/**
+ * INPUT
+ * @brief getting register[0] value
+ * @param void
+ * @return void
+ **/
 void INPUT()
 {
-    printf("enter the value of array[0]:");
+    printf("Enter the value of array[0]:");
     scanf("%d", &array[0]);
 }
 
+/**
+ * OUTPUT
+ * @brief print register[0] value
+ * @param void
+ * @return void
+ **/
 void OUTPUT()
 {
-    printf("array[0]: %d", array[0]);
+    printf("array[0]: %d\n", array[0]);
 }
 
+/**
+ * DIV
+ * @brief divide two registers
+ * @param int a1 , a2
+ * @return void
+ **/
 void DIV(int a1, int a2)
 {
     int kharejghesmat, baghimande;
@@ -268,6 +448,12 @@ void DIV(int a1, int a2)
     SignFlag(array[a1]);
 }
 
+/**
+ * MULL
+ * @brief multiply two registers:puts 4 more valuable bits in array[a1] &  4 less valuable bits in array[a2]
+ * @param int a1 & a2
+ * @return void
+ **/
 void MULL(int a1, int a2)
 {
     int product = array[a1] * array[a2];
@@ -285,7 +471,14 @@ void MULL(int a1, int a2)
     OverflowFlagProduct(product, array[a1], array[a2]);
 }
 
-int stack[50];
+int stack[50]; /**Global variable stack*/
+
+/**
+ * PUSH
+ * @brief  push stacks set value in stack[0]
+ * @param int n
+ * @return void
+ **/
 void PUSH(int n)
 {
     for (int i = 0; i < 50; i++)
@@ -295,6 +488,12 @@ void PUSH(int n)
     stack[0] = sabbat[n];
 }
 
+/**
+ * POP
+ * @brief pull stacks
+ * @param int n
+ * @return void
+ **/
 void POP(int n)
 {
     sabbat[n] = stack[0];
@@ -306,20 +505,27 @@ void POP(int n)
 //(end)functions
 
 //(start)Errors
-int errorAndis(int a, int b, int c, char dastoor[])
+
+/**
+ * Error_index
+ * @brief checking the errors for negative index and more than 31 index
+ * @param int (a, b, c, z) & char dastoor[]
+ * @return int checkAndis(0 or 1)
+ **/
+int errorAndis(int a, int b, int c, char dastoor[], int z)
 {
     int checkAndis = 1;
     if (a < 0 || b < 0 || c < 0)
     {
         red();
-        printf("Error...you have negative arguement in %s", dastoor);
+        printf("Error...you have negative arguement in %s in line %d\n", dastoor, z);
         reset();
         checkAndis = 0;
     }
     if (a > 31 || b > 31 || c > 31)
     {
         red();
-        printf("Error...you have arguement more than 31 in %s(your array can only have 32 elements)", dastoor);
+        printf("Error...you have arguement more than 31 in %s in line %d(your array can only have 32 elements)\n", dastoor, z);
         reset();
         checkAndis = 0;
     }
@@ -327,6 +533,13 @@ int errorAndis(int a, int b, int c, char dastoor[])
     return checkAndis;
 }
 
+/**
+ * main
+ * \section main
+ * @brief run all the code lines that is written in our file
+ * @param int argc, *argv[]
+ * @return 0
+ **/
 int main(int argc, char *argv[])
 {
     int checkAllLine = 0;
@@ -357,64 +570,62 @@ int main(int argc, char *argv[])
     while (fscanf(voroodi, "%[^\n]\n", buffer) != EOF)
     {
 
-        int a1, a2, a3;
+        int a1=0, a2=0, a3=0;
         countW++; //
         for (int i = 0; i < sizeof(buffer); i++)
         {
             buffer[i] = toupper(buffer[i]);
         }
 
-        char dastoor[15]={'\0'} ;
+        char dastoor[15] = {'\0'};
 
         int j;
 
-        for (j = 0; buffer[j] != ' ' && buffer[j] != '\n'&& buffer[j]!='/'&& buffer[j]!='\0'; j++)
+        for (j = 0; buffer[j] != ' ' && buffer[j] != '\n' && buffer[j] != '/' && buffer[j] != '\0'; j++)
         {
             dastoor[j] = buffer[j];
         }
 
-
-        if(dastoor[0] =='\0')
+        if (dastoor[0] == '\0')
             continue;
-
 
         if (strcmp(dastoor, "JMP") == 0)
         {
             countJmp++;
-            if (countJmp > 5)
+            if (countJmp > 20)
             {
                 yellow();
-                printf("you had an infinite loop because of backward jump command, so we ended it after 5 times!\n");
+                printf("you had an infinite loop because of backward jump command in line %d, so we ended it after 20 times!\n",countW);
                 reset();
-                //fscanf(voroodi, "%[^\n]\n", buffer);
-                countJmp=0;
-                //countW++;
+                // fscanf(voroodi, "%[^\n]\n", buffer);
+                countJmp = 0;
+                // countW++;
             }
             else
             {
                 int countL = 1, countCH = 0;
-                sscanf(buffer, "JMP %d", &a1);                
+                sscanf(buffer, "JMP %d", &a1);
 
                 if (a1 <= 0)
                 {
                     red();
-                    printf("Error in line %d...your lines start from 1 !\n",countW);
+                    printf("Error in line %d...your lines start from 1 !\n", countW);
                     reset();
                 }
 
                 else if (a1 > checkAllLine)
                 {
                     red();
-                    printf("Error in line %d...you only have %d lines!\n",countW, checkAllLine);
+                    printf("Error in line %d...you only have %d lines!\n", countW, checkAllLine);
                     reset();
                 }
                 else
                 {
                     rewind(voroodi);
-                    countW=a1;
+                    countW = a1 - 1;
                     while (countL != a1)
                     {
-                    //    countCH++;
+                        //    countCH++;
                         if (fgetc(voroodi) == '\n')
                             countL++;
 
@@ -423,15 +634,9 @@ int main(int argc, char *argv[])
                     // fseek(voroodi, countCH +1, SEEK_SET);
                     // fscanf(voroodi, "%[^\n]\n", buffer);
 
-                    for (j = 0; buffer[j] != ' '; j++)
-                    {
-                        dastoor[j] = buffer[j];
-                    }
-                    dastoor[j] = '\0';
                 }
             }
         }
-
 
         else if (strcmp(dastoor, "EXIT") == 0)
         {
@@ -441,7 +646,7 @@ int main(int argc, char *argv[])
         else if (strcmp(dastoor, "ADD") == 0)
         {
             sscanf(buffer, "ADD S%d, S%d, S%d", &a3, &a1, &a2);
-            if (errorAndis(a3, a1, a2, dastoor) == 1)
+            if (errorAndis(a3, a1, a2, dastoor, countW) == 1)
                 ADD(a3, a1, a2);
         }
 
@@ -449,7 +654,7 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "SUB S%d, S%d, S%d", &a3, &a1, &a2);
-            if (errorAndis(a3, a1, a2, dastoor) == 1)
+            if (errorAndis(a3, a1, a2, dastoor, countW) == 1)
                 SUB(a3, a1, a2);
         }
 
@@ -457,7 +662,7 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "AND S%d, S%d, S%d", &a3, &a1, &a2);
-            if (errorAndis(a3, a1, a2, dastoor) == 1)
+            if (errorAndis(a3, a1, a2, dastoor, countW) == 1)
                 AND(a3, a1, a2);
         }
 
@@ -465,7 +670,7 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "XOR S%d, S%d, S%d", &a3, &a1, &a2);
-            if (errorAndis(a3, a1, a2, dastoor) == 1)
+            if (errorAndis(a3, a1, a2, dastoor, countW) == 1)
                 XOR(a3, a1, a2);
         }
 
@@ -473,7 +678,7 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "OR S%d, S%d, S%d", &a3, &a1, &a2);
-            if (errorAndis(a3, a1, a2, dastoor) == 1)
+            if (errorAndis(a3, a1, a2, dastoor, countW) == 1)
                 OR(a3, a1, a2);
         }
 
@@ -481,7 +686,7 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "ADDI S%d, S%d, %d", &a3, &a1, &a2);
-            if (errorAndis(a3, a1, 0, dastoor) == 1)
+            if (errorAndis(a3, a1, 0, dastoor, countW) == 1)
                 ADDI(a3, a1, a2);
         }
 
@@ -489,7 +694,7 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "SUBI S%d, S%d, %d", &a3, &a1, &a2);
-            if (errorAndis(a3, a1, 0, dastoor) == 1)
+            if (errorAndis(a3, a1, 0, dastoor, countW) == 1)
                 SUBI(a3, a1, a2);
         }
 
@@ -497,7 +702,7 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "ANDI S%d, S%d, %d", &a3, &a1, &a2);
-            if (errorAndis(a3, a1, 0, dastoor) == 1)
+            if (errorAndis(a3, a1, 0, dastoor, countW) == 1)
                 ANDI(a3, a1, a2);
         }
 
@@ -505,7 +710,7 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "XORI S%d, S%d, %d", &a3, &a1, &a2);
-            if (errorAndis(a3, a1, 0, dastoor) == 1)
+            if (errorAndis(a3, a1, 0, dastoor, countW) == 1)
                 XORI(a3, a1, a2);
         }
 
@@ -513,7 +718,7 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "ORI S%d, S%d, %d", &a3, &a1, &a2);
-            if (errorAndis(a3, a1, 0, dastoor) == 1)
+            if (errorAndis(a3, a1, 0, dastoor, countW) == 1)
                 ORI(a3, a1, a2);
         }
 
@@ -523,14 +728,14 @@ int main(int argc, char *argv[])
             if (buffer[8] == 'S' || buffer[9] == 'S')
             {
                 sscanf(buffer, "MOV S%d, S%d", &a1, &a2);
-                if (errorAndis(0, a1, a2, dastoor) == 1)
+                if (errorAndis(0, a1, a2, dastoor, countW) == 1)
                     MOV(a1, array[a2]);
             }
             else
             {
 
                 sscanf(buffer, "MOV S%d, %d", &a1, &a2);
-                if (errorAndis(0, a1, 0, dastoor) == 1)
+                if (errorAndis(0, a1, 0, dastoor, countW) == 1)
                     MOV(a1, a2);
             }
         }
@@ -539,7 +744,7 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "SWP S%d, S%d", &a1, &a2);
-            if (errorAndis(0, a1, a2, dastoor) == 1)
+            if (errorAndis(0, a1, a2, dastoor, countW) == 1)
                 SWP(a1, a2);
         }
 
@@ -567,18 +772,13 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "SKIE S%d, S%d", &a1, &a2);
-            if (errorAndis(0, a1, a2, dastoor) == 1)
+            if (errorAndis(0, a1, a2, dastoor, countW) == 1)
             {
                 if (array[a1] == array[a2])
                 {
                     countW++; //
                     fscanf(voroodi, "%[^\n]\n", buffer);
 
-                    //     for(j=0;buffer[j] !=' ';j++)
-                    //     {
-                    //         dastoor[j]=buffer[j];
-                    //     }
-                    //    // dastoor[j]='\0';
                 }
             }
         }
@@ -587,7 +787,7 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "MULL S%d, S%d", &a1, &a2);
-            if (errorAndis(0, a1, a2, dastoor) == 1)
+            if (errorAndis(0, a1, a2, dastoor, countW) == 1)
                 MULL(a1, a2);
         }
 
@@ -595,7 +795,7 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "DIV S%d, S%d", &a1, &a2);
-            if (errorAndis(0, a1, a2, dastoor) == 1)
+            if (errorAndis(0, a1, a2, dastoor, countW) == 1)
                 DIV(a1, a2);
         }
 
@@ -603,7 +803,7 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "POP S%d", &a1);
-            if (errorAndis(0, a1, 0, dastoor) == 1)
+            if (errorAndis(0, a1, 0, dastoor, countW) == 1)
                 POP(a1);
         }
 
@@ -611,7 +811,7 @@ int main(int argc, char *argv[])
         {
 
             sscanf(buffer, "PUSH S%d", &a1);
-            if (errorAndis(0, a1, 0, dastoor) == 1)
+            if (errorAndis(0, a1, 0, dastoor, countW) == 1)
                 PUSH(a1);
         }
 
@@ -621,14 +821,10 @@ int main(int argc, char *argv[])
             printf("line %d:wrong input,error in command.\n", countW);
             reset();
         }
-        // for(int i=0;i<1000;i++)
-        // {
-        //     dastoor[i]='\0';
-        //     buffer[i]='\0';
-        // }
+
     }
 
     fclose(voroodi);
 
-    return (0);
+    return 0;
 }

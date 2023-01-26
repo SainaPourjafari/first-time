@@ -1,0 +1,17 @@
+Input
+Mov s1, -5
+Jmp 5
+Mov s1, 10
+Add s2, s1, s0
+DUMp_regs     //salam
+OUTPut
+Skie s1, s0
+Ada s2, s1, s0
+Mov s33, 6
+Mov s3, 6
+Push s3
+Sub s3, s1, s0
+dump_regs
+DUmp_regs_f
+EXit
+Output

@@ -1,3 +1,24 @@
+//mov s0, 3
+//mov s1, 6
+jmp 5
+//dump_regs
+dump_regs_f
+jmp 8 
 mov s0, 3
-mov s1, 6
-dump_regs 
+mov s1, 4
+jmp 11
+mov s2, 1
+mov s3, 2
+jmp 14
+mov s4, 5
+mov s5, 6
+jmp 17
+mov s6, 8
+mov s7, 9
+jmp 20
+mov s8, 10
+mov s9, 11
+jmp 23
+mov s10, 12
+mov s11, 13
+dump_regs
