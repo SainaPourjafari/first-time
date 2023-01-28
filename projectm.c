@@ -485,7 +485,7 @@ void PUSH(int n)
     {
         stack[i + 1] = stack[i];
     }
-    stack[0] = sabbat[n];
+    stack[0] = array[n];
 }
 
 /**
@@ -496,7 +496,7 @@ void PUSH(int n)
  **/
 void POP(int n)
 {
-    sabbat[n] = stack[0];
+    array[n] = stack[0];
     for (int i = 0; i < 50; i++)
     {
         stack[i] = stack[i + 1];
@@ -570,7 +570,7 @@ int main(int argc, char *argv[])
     while (fscanf(voroodi, "%[^\n]\n", buffer) != EOF)
     {
 
-        int a1=0, a2=0, a3=0;
+        int a1, a2, a3;
         countW++; //
         for (int i = 0; i < sizeof(buffer); i++)
         {
